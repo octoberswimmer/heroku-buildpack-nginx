@@ -24,6 +24,7 @@ lua_module_url=https://github.com/openresty/lua-nginx-module/archive/v${LUA_MODU
 lua_src=http://www.lua.org/ftp/lua-${LUA_SRC_VERSION}.tar.gz
 ngx_devel_kit_module_url=https://github.com/simpl/ngx_devel_kit/archive/v${NGX_DEVEL_KIT_VERSION}.tar.gz
 zlib_url=http://zlib.net/zlib-${ZLIB_VERSION}.tar.gz
+ngx_brotli_url=https://github.com/google/ngx_brotli.git
 
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
@@ -62,6 +63,10 @@ echo "Downloading and building $lua_src"
 echo "Downloading $zlib_url"
 (cd nginx-${NGINX_VERSION} && curl -L $zlib_url | tar xvz )
 
+
+echo "Downloading $ngx_brotli_url"
+(cd nginx-${NGINX_VERSION} && git clone --recursive $ngx_brotli_url )
+
 (
   cd nginx-${NGINX_VERSION}
   ./configure \
@@ -72,9 +77,10 @@ echo "Downloading $zlib_url"
     --with-http_ssl_module \
     --with-http_geoip_module \
     --prefix=/tmp/nginx \
-    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION}
-    --add-module=/${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} \
-    --add-module=/${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION}
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} \
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/lua-nginx-module-${LUA_MODULE_VERSION} \
+    --add-module=${temp_dir}/nginx-${NGINX_VERSION}/ngx_brotli
   make install
 )
 
