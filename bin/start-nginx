@@ -7,6 +7,12 @@ mkfifo $psmgr
 #Evaluate config to get $PORT and other variables that may be set and used.
 cd config
 shopt -s nullglob
+for conf_file in **/*.erb
+do
+  target=$(basename ${conf_file%.*})
+  erb $conf_file > $target
+done
+
 for conf_file in *.erb
 do
   target=${conf_file%.*}
