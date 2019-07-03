@@ -41,7 +41,7 @@ Ubuntu uses `apt-get` for most software installations. The following commands (a
 ```bash
 $ sudo apt-get install git
 $ sudo apt-get install build-essential libpcre3 libpcre3-dev
-$ sudo apt-get install openssl libssl-dev libssl1.0.0 ca-certificates
+$ sudo apt-get install openssl1.0 libssl1.0-dev libssl1.0.0 ca-certificates
 $ sudo apt-get install lua5.1 liblua5.1.0 liblua5.1.0-dev
 $ ln -s /usr/lib/x86_64-linux-gnu/liblua5.1.so /usr/lib/liblua.so
 $ sudo apt-get install libgeoip-dev
@@ -55,6 +55,7 @@ $ mkdir src
 $ cd src
 $ git clone https://github.com/Americastestkitchen/heroku-buildpack-nginx.git
 $ cd heroku-buildpack-nginx
+$ git checkout -b <my-new-build-branch>
 < make desired changes to scripts/build_nginx>
 $ ./scripts/build_nginx ~/src/heroku-buildpack-nginx/bin/nginx-heroku-18
 ```
@@ -66,6 +67,7 @@ The above command will create a new binary file at `/tmp/nginx/sbin/nginx` and c
 
 Since you'll be making the desired modifications on a Linux VM, you will need a secure way to authenticate to github when commiting your changes.
 
+`$ git config --global core.editor "vim"`
 `$ git config --global user.email "<your-email>@americastestkitchen.com"`
 `$ git config user.name "<Your Name Here>"`
 `$ git add .`
